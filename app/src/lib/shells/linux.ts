@@ -204,6 +204,7 @@ export function launch(
         path,
       ])
     case Shell.LXTerminal:
+      return spawnShell(foundShell.path, ['--working-directory=' + path])
     default:
       return assertNever(shell, `Unknown shell: ${shell}`)
   }
