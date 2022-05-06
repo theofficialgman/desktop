@@ -19,6 +19,7 @@ export enum Shell {
   XFCE = 'XFCE Terminal',
   Alacritty = 'Alacritty',
   Kitty = 'Kitty',
+  LXTerminal = 'LXDE Terminal',
 }
 
 export const Default = Shell.Gnome
@@ -61,6 +62,8 @@ function getShellPath(shell: Shell): Promise<string | null> {
       return getPathIfAvailable('/usr/bin/alacritty')
     case Shell.Kitty:
       return getPathIfAvailable('/usr/bin/kitty')
+    case Shell.LXTerminal:
+      return getPathIfAvailable('/usr/bin/lxterminal')
     default:
       return assertNever(shell, `Unknown shell: ${shell}`)
   }
@@ -84,6 +87,7 @@ export async function getAvailableShells(): Promise<
     xfcePath,
     alacrittyPath,
     kittyPath,
+    lxterminalPath,
   ] = await Promise.all([
     getShellPath(Shell.Gnome),
     getShellPath(Shell.GnomeConsole),
@@ -99,6 +103,7 @@ export async function getAvailableShells(): Promise<
     getShellPath(Shell.XFCE),
     getShellPath(Shell.Alacritty),
     getShellPath(Shell.Kitty),
+    getShellPath(Shell.LXTerminal),
   ])
 
   const shells: Array<IFoundShell<Shell>> = []
@@ -158,6 +163,11 @@ export async function getAvailableShells(): Promise<
     shells.push({ shell: Shell.Kitty, path: kittyPath })
   }
 
+
+  if (lxterminalPath) {
+    shells.push({ shell: Shell.LXTerminal, path: lxterminalPath })
+  }
+
   return shells
 }
 
@@ -193,6 +203,7 @@ export function launch(
         '--directory',
         path,
       ])
+    case Shell.LXTerminal:
     default:
       return assertNever(shell, `Unknown shell: ${shell}`)
   }
