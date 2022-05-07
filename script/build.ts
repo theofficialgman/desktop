@@ -156,7 +156,7 @@ function packageApp() {
       targetArch = os.arch()
     }
 
-    if (targetArch === 'arm64' || targetArch === 'x64') {
+    if (targetArch === 'arm64' || targetArch === 'x64' || targetArch === 'armv7l') {
       return targetArch
     }
 
