@@ -163,7 +163,6 @@ export async function getAvailableShells(): Promise<
     shells.push({ shell: Shell.Kitty, path: kittyPath })
   }
 
-
   if (lxterminalPath) {
     shells.push({ shell: Shell.LXTerminal, path: lxterminalPath })
   }

@@ -92,7 +92,7 @@ const editors: ILinuxExternalEditor[] = [
     name: 'Geany',
     paths: ['/usr/bin/geany'],
   },
-    {
+  {
     name: 'Mousepad',
     paths: ['/usr/bin/mousepad'],
   },
