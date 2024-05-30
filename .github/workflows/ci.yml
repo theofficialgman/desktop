@@ -153,15 +153,6 @@ jobs:
           sudo dpkg --add-architecture armhf
           sudo apt-get update
           sudo apt-get install -y libx11-dev:armhf libx11-xcb-dev:armhf libxkbfile-dev:armhf libsecret-1-dev:armhf
-      - uses: actions/checkout@v3
-        with:
-          repository: ${{ inputs.repository || github.repository }}
-          ref: ${{ inputs.ref }}
-          submodules: recursive
-      - uses: actions/setup-python@v5
-        if: matrix.friendlyName != 'Ubuntu'
-        with:
-          python-version: '3.11'
       - name: Use Node.js ${{ env.NODE_VERSION }}
         if: matrix.friendlyName != 'Ubuntu'
         uses: actions/setup-node@v4
@@ -188,6 +179,15 @@ jobs:
       - name: Get NodeJS node-gyp lib for Windows arm64
         if: ${{ matrix.os == 'windows-2019' && matrix.arch == 'arm64' }}
         run: .\script\download-nodejs-win-arm64.ps1 18.16.0
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.repository || github.repository }}
+          ref: ${{ inputs.ref }}
+          submodules: recursive
+      - uses: actions/setup-python@v5
+        if: matrix.friendlyName != 'Ubuntu'
+        with:
+          python-version: '3.11'
       - name: Get app version
         id: version
         run: echo version=$(jq -r ".version" app/package.json) >> $GITHUB_OUTPUT
